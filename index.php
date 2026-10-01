@@ -212,7 +212,7 @@ $minP = $prices ? min($prices) : 0;
 <div class="slots"><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div></div>
 <div class="tot"><span>Total</span><b id="box-total">0 DH</b></div>
 <a class="btn" id="box-add" href="#panier" aria-disabled="true">Ajouter à ma commande</a>
-<p class="note">Touchez un roll dans la box pour le retirer. Les rolls s’ajoutent ensuite à votre commande à emporter, envoyée sur WhatsApp.</p>
+<p class="note">Touchez un roll dans la box pour le retirer. Les rolls s’ajoutent ensuite à votre commande, envoyée sur WhatsApp. Livraison gratuite à Maârif et alentours.</p>
 <p class="box-msg" id="box-msg" role="status" aria-live="polite"></p>
 </div>
 </div>
@@ -224,13 +224,13 @@ $minP = $prices ? min($prices) : 0;
 <div class="order-grid">
 <div class="box-rouge">
 <img class="logo-c" src="assets/img/logo-creme-240.webp" alt="" width="120" height="110" loading="lazy">
-<div><h3>Livré chez vous</h3><p>Retrouvez toute la carte sur vos applications de livraison, aux mêmes noms et mêmes photos.</p>
+<div><h3>Livré chez vous</h3>
 <div class="apps"><?= app_link('Glovo', $S['glovo'] ?? '') . app_link('Yassir', $S['yassir'] ?? '') . app_link('Kool', $S['kool'] ?? '') ?></div></div>
 </div>
 <div class="box-creme">
 <h3>À emporter</h3>
 <p class="addr"><?= h($S['rue']) ?> · <?= h($S['quartier']) ?> · <?= h($S['ville']) ?></p>
-<p>Commandez sur WhatsApp ou par téléphone, passez récupérer votre commande à la cuisine. Sans commission, au prix de la carte.</p>
+<p>Commandez sur WhatsApp ou par téléphone : <b>livraison gratuite à Maârif et alentours</b>, ou à récupérer à la cuisine. Au prix de la carte, sans commission ni frais.</p>
 <div class="row">
 <a class="btn btn-plein" href="<?= h($waOrder) ?>" target="_blank" rel="noopener"><?= $ICON['wa'] ?>WhatsApp</a>
 <a class="btn btn-ligne" href="tel:<?= h($S['tel']) ?>"><?= $ICON['tel'] ?><?= h($S['tel_affiche']) ?></a>
