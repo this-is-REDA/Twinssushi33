@@ -139,3 +139,30 @@ create policy hours_admin on public.opening_hours for all to authenticated using
 -- Les sauvegardes ne sont jamais publiques.
 drop policy if exists snapshots_admin on public.snapshots;
 create policy snapshots_admin on public.snapshots for all to authenticated using (true) with check (true);
+
+-- ============================================================================
+-- Photos des plats : bucket « menu », lisible par tous, modifiable par l'admin.
+--
+-- Cette partie touche au schéma « storage », qui n'appartient pas au rôle
+-- courant sur tous les projets. Un échec ici annulerait tout ce qui précède,
+-- puisque l'éditeur SQL exécute le script dans une seule transaction : on
+-- intercepte donc le refus de droits et on affiche la marche à suivre.
+-- ============================================================================
+do $$
+begin
+    insert into storage.buckets (id, name, public) values ('menu', 'menu', true)
+        on conflict (id) do update set public = true;
+
+    execute 'drop policy if exists menu_photos_read on storage.objects';
+    execute 'create policy menu_photos_read on storage.objects
+                 for select to anon, authenticated using (bucket_id = ''menu'')';
+
+    execute 'drop policy if exists menu_photos_admin on storage.objects';
+    execute 'create policy menu_photos_admin on storage.objects
+                 for all to authenticated using (bucket_id = ''menu'')
+                 with check (bucket_id = ''menu'')';
+
+    raise notice 'Bucket « menu » et ses règles d''accès en place.';
+exception when insufficient_privilege or undefined_table then
+    raise notice 'Partie stockage ignorée (droits insuffisants). Créer le bucket public « menu » depuis l''onglet Storage, puis rejouer uniquement ce bloc.';
+end $$;

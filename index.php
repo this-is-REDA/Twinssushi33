@@ -1,11 +1,19 @@
 <?php
-/* Twins Sushi — page publique, générée à partir de data/menu.json et data/settings.json */
+/* Twins Sushi — page publique, générée à partir de la base Supabase */
 declare(strict_types=1);
 require __DIR__ . '/inc/bootstrap.php';
 date_default_timezone_set('Africa/Casablanca');
 
-$S = settings();
-$M = menu();
+/* Base injoignable : mieux vaut les coordonnées du restaurant qu'une erreur PHP. */
+try {
+    $S = settings();
+    $M = menu();
+} catch (Throwable $e) {
+    http_response_code(503);
+    header('Retry-After: 120');
+    require __DIR__ . '/inc/indisponible.php';
+    exit;
+}
 $v = fn(string $f) => $f . '?v=' . (@filemtime(__DIR__ . '/' . $f) ?: 1);
 
 $BADGE_LABEL = BADGES;
@@ -50,15 +58,16 @@ foreach ($cats as $c) foreach ($c['items'] as $i) if ($i['price'] !== null && $i
 if ($prices) $ld['priceRange'] = min($prices) . ' – ' . max($prices) . ' MAD';
 
 $maps = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode('Twins Sushi ' . $S['rue'] . ' ' . $S['ville']);
-$waOrder = 'https://wa.me/' . $S['wa'] . '?text=' . rawurlencode('Bonjour Twins Sushi, je souhaite passer une commande à emporter.');
-$desc = "Twins Sushi, sushis et cuisine asiatique à Maârif, Casablanca. Makis, california, chirashi, poké, bentos et box. Livraison et vente à emporter, 7j/7.";
+$waOrder = 'https://wa.me/' . $S['wa'] . '?text=' . rawurlencode('Bonjour Twins Sushi, je souhaite passer une commande.');
+$desc = "Twins Sushi, sushis et cuisine asiatique à Maârif, Casablanca. Makis, california, chirashi, poké, bentos et box. Livraison gratuite à Maârif et vente à emporter, 7j/7.";
 $social = [];
 foreach (['instagram' => 'Instagram', 'tiktok' => 'TikTok', 'facebook' => 'Facebook'] as $k => $lbl)
     if (!empty($S[$k])) $social[] = '<a href="' . h($S[$k]) . '" target="_blank" rel="noopener">' . $lbl . '</a>';
 
+/* Une plateforme sans lien ne s'affiche pas : un « bientôt » contredirait la
+   livraison directe et gratuite, qui est l'argument du restaurant. */
 function app_link(string $label, string $url): string {
-    return $url ? '<a class="app" href="' . h($url) . '" target="_blank" rel="noopener">' . $label . '</a>'
-                : '<span class="app soon">' . $label . ' <em>bientôt</em></span>';
+    return $url === '' ? '' : '<a class="app" href="' . h($url) . '" target="_blank" rel="noopener">' . $label . '</a>';
 }
 require __DIR__ . '/inc/icons.php';
 
@@ -129,7 +138,7 @@ $minP = $prices ? min($prices) : 0;
 <div class="txt">
 <span class="kicker">Sushis &amp; cuisine asiatique · Maârif, Casablanca</span>
 <h1 class="display"><span class="w"><span>Laissez</span></span> <span class="w"><span>couler.</span></span><span class="l2"><span class="w"><span>Trempez.</span></span> <span class="w"><span>Savourez.</span></span></span></h1>
-<p class="sub">Makis, california, chirashi, poké et bentos préparés chaque jour dans notre cuisine du <?= h($S['rue']) ?>. En livraison et à emporter, 7j/7.</p>
+<p class="sub">Makis, california, chirashi, poké et bentos préparés chaque jour dans notre cuisine du <?= h($S['rue']) ?>. En livraison gratuite à Maârif et à emporter, 7j/7.</p>
 <div class="ctas"><a class="btn btn-plein" href="#carte">Voir la carte</a><a class="btn btn-ligne" href="#commander">Commander</a></div>
 <div class="steps" aria-hidden="true">
 <span class="step" data-a="0.05" data-b="0.4">Un california, tobiko rouge.</span>
@@ -157,7 +166,7 @@ $minP = $prices ? min($prices) : 0;
 <div class="wrap">
 <span class="kicker rv">La maison</span>
 <h2 class="display" id="h-manif"><span class="w"><span>Simple.</span></span> <span class="w"><span>Frais.</span></span> <span class="w"><span>Gourmand.</span></span></h2>
-<p class="lead rv" data-d="1">Twins Sushi est une cuisine de sushis et de plats asiatiques à Maârif. Du poisson frais chaque matin, du riz vinaigré à la minute, et une carte qui va des makis aux nouilles sautées au wok. Livrée chez vous ou à emporter, au prix de la carte.</p>
+<p class="lead rv" data-d="1">Twins Sushi est une cuisine de sushis et de plats asiatiques à Maârif. Du poisson frais chaque matin, du riz vinaigré à la minute, et une carte qui va des makis aux nouilles sautées au wok. Livrée gratuitement à Maârif et alentours, ou à emporter, au prix de la carte.</p>
 <div class="stats rv" data-d="2">
 <div class="stat"><b data-to="<?= $nb ?>">0</b><span>plats à la carte</span></div>
 <div class="stat"><b data-to="<?= $nbCats ?>">0</b><span>familles de plats</span></div>
@@ -225,12 +234,20 @@ $minP = $prices ? min($prices) : 0;
 <div class="box-rouge">
 <img class="logo-c" src="assets/img/logo-creme-240.webp" alt="" width="120" height="110" loading="lazy">
 <div><h3>Livré chez vous</h3>
-<div class="apps"><?= app_link('Glovo', $S['glovo'] ?? '') . app_link('Yassir', $S['yassir'] ?? '') . app_link('Kool', $S['kool'] ?? '') ?></div></div>
+<p><b>Livraison gratuite à Maârif et alentours.</b> Au prix de la carte, sans commission ni frais.</p>
+<?php /* Les pastilles reprennent le style prévu pour le fond rouge. Les plateformes
+         ne s'affichent que si un lien existe : annoncer « bientôt » contredirait la
+         livraison directe, qui est justement l'argument du restaurant. */ ?>
+<div class="apps">
+<a class="app" href="<?= h($waOrder) ?>" target="_blank" rel="noopener">WhatsApp</a>
+<a class="app" href="tel:<?= h($S['tel']) ?>"><?= h($S['tel_affiche']) ?></a>
+<?php foreach (['Glovo' => 'glovo', 'Yassir' => 'yassir', 'Kool' => 'kool'] as $nom => $cle) echo app_link($nom, (string)($S[$cle] ?? '')); ?>
+</div></div>
 </div>
 <div class="box-creme">
 <h3>À emporter</h3>
 <p class="addr"><?= h($S['rue']) ?> · <?= h($S['quartier']) ?> · <?= h($S['ville']) ?></p>
-<p>Commandez sur WhatsApp ou par téléphone : <b>livraison gratuite à Maârif et alentours</b>, ou à récupérer à la cuisine. Au prix de la carte, sans commission ni frais.</p>
+<p>À récupérer directement à la cuisine, au même prix. Prévenez-nous sur WhatsApp ou par téléphone, c’est prêt à votre arrivée.</p>
 <div class="row">
 <a class="btn btn-plein" href="<?= h($waOrder) ?>" target="_blank" rel="noopener"><?= $ICON['wa'] ?>WhatsApp</a>
 <a class="btn btn-ligne" href="tel:<?= h($S['tel']) ?>"><?= $ICON['tel'] ?><?= h($S['tel_affiche']) ?></a>
@@ -299,19 +316,19 @@ $minP = $prices ? min($prices) : 0;
 
 <div class="drawer" id="panier" hidden role="dialog" aria-modal="true" aria-labelledby="h-panier">
 <div class="panel">
-<header><h2 id="h-panier">Ma commande à emporter</h2><button class="x" type="button" data-close aria-label="Fermer">✕</button></header>
+<header><h2 id="h-panier">Ma commande</h2><button class="x" type="button" data-close aria-label="Fermer">✕</button></header>
 <div class="body">
 <div id="lines"></div>
 <form class="form" onsubmit="return false">
 <label for="c-nom">Votre prénom<input id="c-nom" type="text" autocomplete="given-name" placeholder="Ex. Yasmine" maxlength="40"></label>
-<label for="c-heure">Heure de retrait<select id="c-heure"><option>Dès que possible</option></select></label>
+<label for="c-heure">Heure souhaitée<select id="c-heure"><option>Dès que possible</option></select></label>
 <label for="c-note">Remarque (facultatif)<textarea id="c-note" placeholder="Sans wasabi, sauce en plus…" maxlength="300"></textarea></label>
 </form>
 </div>
 <footer>
 <div class="total"><span>Total</span><b id="total">0 DH</b></div>
 <a class="btn btn-wa" id="send" href="#" target="_blank" rel="noopener" aria-disabled="true"><?= $ICON['wa'] ?>Envoyer sur WhatsApp</a>
-<p class="note">Votre commande s’ouvre dans WhatsApp, prête à envoyer. Nous vous confirmons l’heure de retrait au <?= h($S['wa_affiche']) ?>.</p>
+<p class="note">Votre commande s’ouvre dans WhatsApp, prête à envoyer. Nous confirmons l’heure, la livraison ou le retrait au <?= h($S['wa_affiche']) ?>.</p>
 </footer>
 </div></div>
 <div class="toast" role="status" aria-live="polite"></div>

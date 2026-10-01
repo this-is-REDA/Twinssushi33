@@ -3,119 +3,142 @@
 declare(strict_types=1);
 
 define('ROOT', dirname(__DIR__));
-define('DATA', ROOT . '/data');
-define('UPLOADS', ROOT . '/assets/menu/uploads');
 define('MAX_BACKUPS', 40);
+
+require __DIR__ . '/supabase.php';
 
 const BADGES = ['' => 'Aucun', 'vege' => 'Végé', 'epice' => 'Épicé', 'croustillant' => 'Croustillant',
                 'bestseller' => 'Best-seller', 'nouveau' => 'Nouveau', 'signature' => 'Signature', 'partager' => 'À partager'];
 
 function h(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
 
-function read_json(string $name): array {
-    $f = DATA . "/$name.json";
-    if (!is_file($f)) return [];
-    $fp = fopen($f, 'rb');
-    flock($fp, LOCK_SH);
-    $raw = stream_get_contents($fp);
-    flock($fp, LOCK_UN); fclose($fp);
-    $d = json_decode($raw ?: '[]', true);
-    return is_array($d) ? $d : [];
-}
+/* ---------- Lecture de la carte et des réglages ----------
+   Ces deux fonctions renvoient exactement la structure que le site et l'admin
+   attendaient du temps des fichiers JSON : la base a changé, pas l'affichage.
+   $token non nul (admin connecté) = on voit aussi les plats masqués. */
 
-/* Écriture atomique + copie de sauvegarde de la version précédente */
-function write_json(string $name, array $data, bool $backup = true): void {
-    $f = DATA . "/$name.json";
-    if ($backup && is_file($f) && $name !== 'admin' && $name !== 'throttle') {
-        $dir = DATA . '/backups';
-        if (!is_dir($dir)) mkdir($dir, 0750, true);
-        $stamp = date('Ymd-His'); $dest = sprintf('%s/%s-%s.json', $dir, $name, $stamp); $n = 2;
-        while (is_file($dest)) $dest = sprintf('%s/%s-%s-%d.json', $dir, $name, $stamp, $n++);
-        copy($f, $dest);
-        $old = glob("$dir/$name-*.json") ?: [];
-        sort($old);
-        while (count($old) > MAX_BACKUPS) @unlink(array_shift($old));
+function menu(?string $token = null): array {
+    $rows = sb_select('categories', 'select=id,title,jp,visible,items(code,name,description,price,pcs,show_pcs,badge,image,available,visible,sort_order)&order=sort_order', $token);
+    $cats = [];
+    foreach ($rows as $c) {
+        $items = $c['items'] ?? [];
+        usort($items, fn($a, $b) => ($a['sort_order'] ?? 0) <=> ($b['sort_order'] ?? 0));
+        $cats[] = [
+            'id'      => (string)$c['id'],
+            'title'   => (string)$c['title'],
+            'jp'      => (string)($c['jp'] ?? ''),
+            'visible' => (bool)($c['visible'] ?? true),
+            'items'   => array_map(fn($i) => [
+                'code'      => (string)$i['code'],
+                'name'      => (string)$i['name'],
+                'desc'      => (string)($i['description'] ?? ''),
+                'price'     => $i['price'] === null ? null : (int)$i['price'],
+                'pcs'       => (int)($i['pcs'] ?? 1),
+                'showPcs'   => (bool)($i['show_pcs'] ?? false),
+                'badge'     => (string)($i['badge'] ?? ''),
+                'img'       => (string)($i['image'] ?? ''),
+                'available' => (bool)($i['available'] ?? true),
+                'visible'   => (bool)($i['visible'] ?? true),
+            ], $items),
+        ];
     }
-    $tmp = $f . '.tmp' . bin2hex(random_bytes(4));
-    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-    if ($json === false || file_put_contents($tmp, $json, LOCK_EX) === false) throw new RuntimeException('Écriture impossible');
-    rename($tmp, $f);
+    return ['categories' => $cats];
 }
 
-function menu(): array { return read_json('menu') ?: ['categories' => []]; }
-function settings(): array { return read_json('settings'); }
+function settings(?string $token = null): array {
+    $out = [];
+    foreach (sb_select('settings', 'select=key,value', $token) as $r) {
+        $out[(string)$r['key']] = $r['value'];
+    }
+    $hours = sb_select('opening_hours', 'select=label,days,opens,closes,display&order=sort_order', $token);
+    $out['horaires'] = array_map(fn($h) => [
+        'label' => (string)$h['label'],
+        'days'  => (string)$h['days'],
+        // La base stocke un type « time » (11:00:00), le site affiche 11:00
+        'open'  => substr((string)$h['opens'], 0, 5),
+        'close' => substr((string)$h['closes'], 0, 5),
+        'text'  => (string)$h['display'],
+    ], $hours);
+    return $out;
+}
 
 function price_label(array $it): string {
     return $it['price'] === null || $it['price'] === '' ? '' : ((int)$it['price']) . ' DH';
 }
 
-/* ---------- Identifiants admin ---------- */
-function admin_file(): string { return DATA . '/admin.php'; }
-function admin_conf(): array { $f = admin_file(); return is_file($f) ? (array)(require $f) : []; }
+/* ---------- Connexion admin : jetons Supabase ----------
+   Supabase Auth vérifie l'e-mail et le mot de passe, et renvoie deux jetons.
+   Rien n'est conservé côté serveur : l'admin fonctionne donc même sur un
+   hébergement où chaque requête tombe sur une machine différente.
+   L'autorisation réelle n'est jamais décidée ici : chaque écriture voyage avec
+   le jeton jusqu'à la base, qui applique ses règles RLS. Les fonctions
+   ci-dessous ne servent qu'à savoir s'il est utile d'essayer. */
+const ADMIN_COOKIE   = 'twins_admin';
+const REFRESH_COOKIE = 'twins_refresh';
+const CSRF_COOKIE    = 'twins_csrf';
 
-/* ---------- Connexion admin : jeton JWT signé, sans session serveur ----------
-   Aucun état n'est conservé côté serveur, ce qui permet à l'admin de fonctionner
-   sur un hébergement où chaque requête peut tomber sur une machine différente.
-   La clé de signature est dérivée du mot de passe chiffré : changer de mot de
-   passe invalide donc immédiatement tous les jetons déjà émis. */
-const ADMIN_COOKIE = 'twins_admin';
-const ADMIN_TTL = 8 * 3600;
-
-function jwt_secret(): string {
-    $env = getenv('TWINS_JWT_SECRET');
-    if (is_string($env) && $env !== '') return $env;
-    $hash = admin_conf()['hash'] ?? '';
-    return $hash === '' ? '' : hash_hmac('sha256', 'twins-admin-jwt', $hash, true);
-}
-
-function b64url(string $raw): string { return rtrim(strtr(base64_encode($raw), '+/', '-_'), '='); }
 function b64url_decode(string $s): string { return (string)base64_decode(strtr($s, '-_', '+/')); }
-
-function jwt_sign(array $claims): string {
-    $head = b64url((string)json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
-    $body = b64url((string)json_encode($claims, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-    return $head . '.' . $body . '.' . b64url(hash_hmac('sha256', "$head.$body", jwt_secret(), true));
-}
-
-function jwt_verify(string $token): ?array {
-    $secret = jwt_secret();
-    if ($secret === '') return null;
-    $p = explode('.', $token);
-    if (count($p) !== 3) return null;
-    [$head, $body, $sig] = $p;
-    if (!hash_equals(b64url(hash_hmac('sha256', "$head.$body", $secret, true)), $sig)) return null;
-    $alg = json_decode(b64url_decode($head), true);
-    // Refus explicite de « alg: none » et de tout autre algorithme
-    if (!is_array($alg) || ($alg['alg'] ?? '') !== 'HS256') return null;
-    $claims = json_decode(b64url_decode($body), true);
-    if (!is_array($claims) || empty($claims['sub']) || empty($claims['jti'])) return null;
-    if ((int)($claims['exp'] ?? 0) <= time()) return null;
-    return $claims;
-}
 
 function admin_cookie_options(int $expires): array {
     $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
     return ['expires' => $expires, 'path' => '/', 'secure' => $secure, 'httponly' => true, 'samesite' => 'Strict'];
 }
 
-/* Ouvre la session du navigateur et renvoie le jeton CSRF à lui transmettre. */
-function admin_login(string $user): string {
-    $jti = bin2hex(random_bytes(16));
-    $token = jwt_sign(['sub' => $user, 'jti' => $jti, 'iat' => time(), 'exp' => time() + ADMIN_TTL]);
-    setcookie(ADMIN_COOKIE, $token, admin_cookie_options(0));
-    $_COOKIE[ADMIN_COOKIE] = $token;
-    return csrf_for($jti);
+/* Dépose les jetons dans des cookies inaccessibles au JavaScript et renvoie
+   le jeton CSRF que le navigateur devra renvoyer en en-tête. */
+function admin_store(array $session): string {
+    setcookie(ADMIN_COOKIE, $session['access_token'], admin_cookie_options(0));
+    $_COOKIE[ADMIN_COOKIE] = $session['access_token'];
+    if (($session['refresh_token'] ?? '') !== '') {
+        setcookie(REFRESH_COOKIE, $session['refresh_token'], admin_cookie_options(0));
+        $_COOKIE[REFRESH_COOKIE] = $session['refresh_token'];
+    }
+    /* Le jeton CSRF survit au renouvellement du jeton d'accès, sinon toutes les
+       heures la page afficherait « Jeton de sécurité invalide ». */
+    if (csrf_token() === '') {
+        $csrf = bin2hex(random_bytes(16));
+        setcookie(CSRF_COOKIE, $csrf, admin_cookie_options(0));
+        $_COOKIE[CSRF_COOKIE] = $csrf;
+    }
+    return csrf_token();
 }
+
 function admin_logout(): void {
-    setcookie(ADMIN_COOKIE, '', admin_cookie_options(time() - 3600));
-    unset($_COOKIE[ADMIN_COOKIE]);
+    $token = admin_token();
+    if ($token !== '') sb_sign_out($token);
+    foreach ([ADMIN_COOKIE, REFRESH_COOKIE, CSRF_COOKIE] as $c) {
+        setcookie($c, '', admin_cookie_options(time() - 3600));
+        unset($_COOKIE[$c]);
+    }
 }
 
-function admin_claims(): ?array { return jwt_verify((string)($_COOKIE[ADMIN_COOKIE] ?? '')); }
-function is_admin(): bool { return admin_claims() !== null; }
-function admin_user(): string { return (string)(admin_claims()['sub'] ?? ''); }
+function admin_token(): string { return (string)($_COOKIE[ADMIN_COOKIE] ?? ''); }
 
-/* Jeton CSRF lié au jeton de connexion : le navigateur le renvoie en en-tête,
-   ce qu'un autre site ne peut pas faire puisqu'il ne peut pas lire la réponse. */
-function csrf_for(string $jti): string { return hash_hmac('sha256', 'csrf|' . $jti, jwt_secret()); }
-function csrf_token(): string { $c = admin_claims(); return $c === null ? '' : csrf_for((string)$c['jti']); }
+/* Lit la charge utile du jeton SANS vérifier sa signature : uniquement pour
+   afficher l'e-mail et repérer une expiration. Jamais pour autoriser. */
+function admin_claims(): ?array {
+    $p = explode('.', admin_token());
+    if (count($p) !== 3) return null;
+    $c = json_decode(b64url_decode($p[1]), true);
+    if (!is_array($c) || empty($c['sub'])) return null;
+    if ((int)($c['exp'] ?? 0) <= time()) return null;
+    return $c;
+}
+
+function is_admin(): bool { return admin_claims() !== null; }
+function admin_user(): string { return (string)(admin_claims()['email'] ?? ''); }
+
+/* Jeton expiré : on tente un renouvellement silencieux avec le second cookie,
+   pour éviter de redemander le mot de passe toutes les heures. */
+function admin_renew(): bool {
+    $r = (string)($_COOKIE[REFRESH_COOKIE] ?? '');
+    if ($r === '') return false;
+    $session = sb_refresh($r);
+    if ($session === null) return false;
+    admin_store($session);
+    return true;
+}
+
+/* Le navigateur renvoie ce jeton en en-tête ; un autre site ne peut ni lire le
+   cookie qui le contient, ni lire la réponse de l'API pour le découvrir. */
+function csrf_token(): string { return (string)($_COOKIE[CSRF_COOKIE] ?? ''); }

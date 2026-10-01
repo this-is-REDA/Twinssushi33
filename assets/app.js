@@ -1,4 +1,4 @@
-/* Twins Sushi — interactions (carte, filtres, commande à emporter via WhatsApp) */
+/* Twins Sushi — interactions (carte, filtres, commande via WhatsApp) */
 (function () {
   "use strict";
   var CFG = window.TWINS || {};
@@ -90,7 +90,7 @@
     });
   });
 
-  /* ---------- Commande à emporter ---------- */
+  /* ---------- Commande ---------- */
   var KEY = "twins-panier-v1";
   var items = {};
   function readItems() {
@@ -153,14 +153,14 @@
   }
 
   function message() {
-    var lines = ["Bonjour Twins Sushi, je souhaite passer une commande à emporter :", ""];
+    var lines = ["Bonjour Twins Sushi, je souhaite passer une commande :", ""];
     Object.keys(cart).forEach(function (k) {
       lines.push("• " + cart[k] + " × " + items[k].name + " — " + fmt(items[k].price * cart[k]));
     });
     lines.push("", "Total : " + fmt(total()));
     var nm = $("#c-nom"), hr = $("#c-heure"), nt = $("#c-note");
     if (nm && nm.value.trim()) lines.push("Nom : " + nm.value.trim());
-    if (hr) lines.push("Retrait : " + hr.value);
+    if (hr) lines.push("Heure souhaitée : " + hr.value);
     if (nt && nt.value.trim()) lines.push("Remarque : " + nt.value.trim());
     return lines.join("\n");
   }

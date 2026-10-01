@@ -1,17 +1,20 @@
-# Identifiants admin : jamais dans le dépôt, même chiffrés
+# Restes de la version précédente, avant le passage à Supabase. Plus rien ne les
+# lit, mais data/admin.php contient l'empreinte d'un mot de passe : il ne doit en
+# aucun cas se retrouver dans le dépôt.
 /data/admin.php
-
-# Fichiers générés par le site
 /data/throttle.json
 /data/backups/*
 !/data/backups/.keep
 
-# Photos ajoutées depuis l'espace admin
+# Photos ajoutées depuis l'ancien espace admin (les nouvelles vont dans Supabase)
 /assets/menu/uploads/*
 !/assets/menu/uploads/.htaccess
 !/assets/menu/uploads/.keep
 
 # Dossier construit par Vercel au déploiement
 /public/
+
+# Dossier de travail de la CLI Supabase
+/supabase/.temp/
 
 .DS_Store

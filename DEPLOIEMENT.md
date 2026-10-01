@@ -1,35 +1,82 @@
-# Déploiement sur votre propre serveur
+# Déploiement
 
-## Prérequis
-- Linux (Debian/Ubuntu conseillé), Apache **ou** Nginx
-- PHP 8.1 ou plus récent, avec les extensions `gd`, `mbstring`, `json` (incluses en général)
-  Debian/Ubuntu : `sudo apt install php8.2-fpm php8.2-gd php8.2-mbstring`
-- Un certificat SSL (Let's Encrypt : `sudo certbot --nginx -d www.twinssushi.com -d twinssushi.com`)
+Le site est en PHP et ne stocke plus rien sur son disque : la carte, les réglages,
+les identifiants et les photos vivent dans **Supabase**. N'importe quel hébergeur
+PHP convient donc, y compris les hébergements sans disque inscriptible comme Vercel.
 
-## Étapes
-1. Copier le contenu du dossier `TwinsSushi-site-v3/` dans le dossier web, par exemple `/var/www/twinssushi/`.
-2. Donner les droits d'écriture à PHP sur les dossiers de données :
-   ```
-   sudo chown -R www-data:www-data /var/www/twinssushi/data /var/www/twinssushi/assets/menu/uploads
-   sudo chmod -R 775 /var/www/twinssushi/data /var/www/twinssushi/assets/menu/uploads
-   ```
-3. **Apache** : activer `mod_rewrite` et `mod_headers`, et autoriser `.htaccess` (`AllowOverride All`) sur le dossier. Rien d'autre à faire.
-   **Nginx** : utiliser `outils/nginx-twinssushi.conf` (adapter le chemin et la version de PHP-FPM), puis `sudo nginx -t && sudo systemctl reload nginx`.
-4. Activer HTTPS. Avec Apache, retirer ensuite le `#` devant les deux lignes « Forcer HTTPS » dans `.htaccess`.
-5. Vérifier :
-   - https://www.twinssushi.com/ affiche le site ;
-   - https://www.twinssushi.com/data/menu.json renvoie **403 / Forbidden** (obligatoire) ;
-   - https://www.twinssushi.com/admin/ affiche la connexion.
+## 1. Préparer le projet Supabase
+
+1. Créer un projet sur [supabase.com](https://supabase.com) (région **Europe (Paris)**,
+   la plus proche de Casablanca).
+2. Dans **SQL Editor**, exécuter `supabase/schema.sql` puis `supabase/seed.sql`.
+   Le premier crée les tables, les règles d'accès et le bucket des photos ;
+   le second installe la carte actuelle (28 catégories, 136 plats).
+3. Dans **Authentication → Users**, créer l'utilisateur de l'espace admin
+   (e-mail + mot de passe). C'est ce compte qui servira à se connecter sur `/admin/`.
+4. Dans **Project Settings → API**, relever :
+   - l'**URL du projet** (`https://xxxx.supabase.co`) ;
+   - la clé **anon public**.
+
+Ces deux valeurs sont publiques par nature : elles n'ouvrent aucun droit en écriture.
+La clé **service_role**, elle, ne doit jamais sortir du tableau de bord Supabase ni
+être placée dans ce projet.
+
+## 2. Renseigner les deux variables d'environnement
+
+| Variable            | Valeur                          |
+| ------------------- | ------------------------------- |
+| `SUPABASE_URL`      | `https://xxxx.supabase.co`      |
+| `SUPABASE_ANON_KEY` | la clé *anon public*            |
+
+- **Vercel** : Project Settings → Environment Variables, pour les trois
+  environnements (Production, Preview, Development), puis relancer un déploiement.
+- **Serveur Apache/Nginx** : `SetEnv` (Apache) ou `fastcgi_param` (PHP-FPM),
+  ou un `.env` chargé par l'hébergeur.
+
+Sans ces variables, le site affiche une page « momentanément indisponible »
+avec le téléphone du restaurant, au lieu d'une erreur technique.
+
+## 3. Vérifier
+
+- `/` affiche la carte ;
+- `/admin/` affiche l'écran de connexion, et l'e-mail créé à l'étape 1 fonctionne ;
+- modifier un plat dans l'admin se voit immédiatement sur la page publique.
 
 ## Espace admin
+
 - Adresse : `/admin/`
-- Identifiant et mot de passe : communiqués séparément, jamais écrits dans ce dépôt.
-- Les identifiants sont stockés chiffrés dans `data/admin.php`, qui est volontairement exclu du dépôt (voir `.gitignore`).
-- Créer ou réinitialiser le compte : `php outils/nouveau-mot-de-passe.php <identifiant> "<MotDePasse>"` depuis le dossier du site.
+- La connexion passe par Supabase Auth. Les jetons sont déposés dans des cookies
+  inaccessibles au JavaScript, renouvelés automatiquement, et toute écriture est
+  revalidée par la base elle-même (règles RLS) : le code PHP ne décide jamais seul.
+- Mot de passe oublié : le réinitialiser depuis **Authentication → Users** dans
+  le tableau de bord Supabase.
+- Aucun identifiant n'est stocké dans ce dépôt.
 
 ## Sauvegardes
-Tout le contenu modifiable est dans `data/` (carte, réglages, identifiants) et `assets/menu/uploads/` (photos ajoutées).
-Sauvegarder ces deux dossiers suffit. Le reste se réinstalle depuis le zip.
 
-## Mises à jour
-Pour une nouvelle version du site, remplacer tous les fichiers **sauf** `data/` et `assets/menu/uploads/`.
+- Chaque modification de la carte ou des réglages archive la version précédente
+  dans la table `snapshots`, consultable et restaurable depuis
+  **Sécurité & sauvegardes** dans l'admin. Conservation : 60 jours.
+- Pour une sauvegarde complète, Supabase propose ses propres sauvegardes de base
+  (**Database → Backups**).
+- `data/menu.json` et `data/settings.json` ne servent plus au site : ils ne sont
+  gardés que pour regénérer `supabase/seed.sql` (`php supabase/generer-seed.php`)
+  si l'on repart d'une base vide.
+
+## Développer en local
+
+PHP n'est pas nécessaire sur la machine, Docker suffit :
+
+```sh
+docker run --rm -p 8080:8080 -v "$PWD":/app -w /app \
+  -e SUPABASE_URL="https://xxxx.supabase.co" \
+  -e SUPABASE_ANON_KEY="..." \
+  php:8.3-cli php -S 0.0.0.0:8080
+```
+
+L'envoi de photos a besoin de l'extension **GD** compilée avec WebP, absente de
+l'image `php:8.3-cli` : voir `supabase/Dockerfile.gd` pour une image qui l'inclut.
+
+Pour travailler sans toucher à la base de production, la CLI Supabase monte une
+pile complète en local (`supabase start`), avec les mêmes adresses `/rest/v1`,
+`/auth/v1` et `/storage/v1`.

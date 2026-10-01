@@ -76,25 +76,8 @@
       var btn = $("#lf button"); btn.disabled = true;
       api("login", { user: $("#lu").value, pass: $("#lp").value }).then(function (d) {
         S.user = d.user; S.csrf = d.csrf;
-        if (d.mustChange) return renderForcePwd();
         return load();
       }).catch(function (err) { $("#le").textContent = err.message; btn.disabled = false; $("#lp").select(); });
-    });
-  }
-  function renderForcePwd() {
-    app.innerHTML = '<div class="login"><form id="pf" novalidate>' +
-      '<img class="logo lg-l" src="' + asset('assets/img/logo-96.webp') + '" alt="" width="84" height="77"><img class="logo lg-d" src="' + asset('assets/img/logo-creme-96.webp') + '" alt="" width="84" height="77">' +
-      '<h1 class="t-titre">Choisissez votre mot de passe</h1><p class="muted">Première connexion : remplacez le mot de passe provisoire.</p>' +
-      '<div class="err" id="pe"></div>' +
-      '<label class="f"><span>Mot de passe provisoire</span><input id="pc" type="password" autocomplete="current-password"></label>' +
-      '<label class="f"><span>Nouveau mot de passe</span><input id="pn" type="password" autocomplete="new-password"><small>10 caractères minimum, lettres et chiffres.</small></label>' +
-      '<label class="f"><span>Confirmer</span><input id="pn2" type="password" autocomplete="new-password"></label>' +
-      '<button class="b p" type="submit">Enregistrer</button></form></div>';
-    $("#pf").addEventListener("submit", function (e) {
-      e.preventDefault();
-      if ($("#pn").value !== $("#pn2").value) { $("#pe").textContent = "Les deux mots de passe ne correspondent pas."; return; }
-      api("password", { current: $("#pc").value, new: $("#pn").value }).then(function (d) { S.csrf = d.csrf; toast("Mot de passe enregistré"); load(); })
-        .catch(function (err) { $("#pe").textContent = err.message; });
     });
   }
 
@@ -319,7 +302,7 @@
       '<div><button class="b sm" type="button" id="addh">+ Ajouter une ligne</button></div></section>' +
       '<section class="panel"><h2 class="t-titre">Contact et adresse</h2><div class="row2">' +
       fld("tel_affiche", "Téléphone (affiché)", { ph: "05 21 23 19 26" }) + fld("tel", "Téléphone (format international)", { ph: "+212521231926", help: "Utilisé pour le bouton « Appeler »." }) +
-      fld("wa_affiche", "WhatsApp (affiché)", { ph: "07 19 16 20 94" }) + fld("wa", "WhatsApp (format international)", { ph: "212719162094", help: "Reçoit les commandes à emporter. Sans le +." }) +
+      fld("wa_affiche", "WhatsApp (affiché)", { ph: "07 19 16 20 94" }) + fld("wa", "WhatsApp (format international)", { ph: "212719162094", help: "Reçoit les commandes des clients. Sans le +." }) +
       fld("email", "E-mail", { type: "email" }) + fld("rue", "Rue") + fld("quartier", "Quartier") + fld("cp", "Code postal") + fld("ville", "Ville") + '</div></section>' +
       '<section class="panel"><h2 class="t-titre">Plateformes et réseaux</h2><p class="hint">Collez l’adresse complète de votre page (https://…). Vide = « bientôt » sur le site.</p><div class="row2">' +
       fld("glovo", "Glovo", { type: "url", ph: "https://glovoapp.com/…" }) + fld("yassir", "Yassir", { type: "url" }) + fld("kool", "Kool", { type: "url" }) +
@@ -346,7 +329,7 @@
       '<div class="row2"><label class="f"><span>Mot de passe actuel</span><input id="s-cur" type="password" autocomplete="current-password"></label>' +
       '<label class="f"><span>Nouveau mot de passe</span><input id="s-new" type="password" autocomplete="new-password"><small>10 caractères minimum, lettres et chiffres.</small></label></div>' +
       '<div class="err" id="se"></div><div><button class="b p" type="button" id="spw">Mettre à jour</button></div></section>' +
-      '<section class="panel"><h2 class="t-titre">Sauvegardes automatiques</h2><p class="hint">Chaque modification crée une copie de la version précédente (40 dernières conservées). Restaurer remet la carte ou les réglages dans l’état de cette date.</p><div id="bk" class="muted">Chargement…</div></section>';
+      '<section class="panel"><h2 class="t-titre">Sauvegardes automatiques</h2><p class="hint">Chaque modification crée une copie de la version précédente, conservée 60 jours (40 plus récentes affichées). Restaurer remet la carte ou les réglages dans l’état de cette date.</p><div id="bk" class="muted">Chargement…</div></section>';
     $("#spw").addEventListener("click", function () {
       api("password", { user: $("#s-user").value, current: $("#s-cur").value, new: $("#s-new").value })
         .then(function (d) { S.user = d.user; S.csrf = d.csrf || S.csrf; $("#s-cur").value = $("#s-new").value = ""; $("#se").textContent = ""; toast("Identifiants mis à jour"); })
@@ -354,10 +337,13 @@
     });
     api("backups").then(function (d) {
       var list = d.backups || [];
-      $("#bk").innerHTML = list.length ? list.map(function (f) {
-        var m = f.match(/^(menu|settings)-(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})(\d{2})/);
-        var lbl = m ? (m[1] === "menu" ? "Carte" : "Réglages") + " · " + m[4] + "/" + m[3] + "/" + m[2] + " à " + m[5] + "h" + m[6] : f;
-        return '<div class="bk"><span>' + esc(lbl) + '</span><button class="b sm" type="button" data-rs="' + esc(f) + '" data-label="Restaurer">Restaurer</button></div>';
+      $("#bk").innerHTML = list.length ? list.map(function (b) {
+        var d = new Date(b.at);
+        var p = function (n) { return (n < 10 ? "0" : "") + n; };
+        var lbl = (b.kind === "menu" ? "Carte" : "Réglages") + " · " +
+          p(d.getDate()) + "/" + p(d.getMonth() + 1) + "/" + d.getFullYear() + " à " +
+          p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds());
+        return '<div class="bk"><span>' + esc(lbl) + '</span><button class="b sm" type="button" data-rs="' + b.id + '" data-label="Restaurer">Restaurer</button></div>';
       }).join("") : "Aucune sauvegarde pour l’instant.";
       $$("[data-rs]").forEach(function (b) { confirmBtn(b, "Confirmer", function () { run("restore", { file: b.getAttribute("data-rs") }, "Version restaurée"); }); });
     }).catch(function (e) { $("#bk").textContent = e.message; });
@@ -367,7 +353,6 @@
   api("me").then(function (d) {
     if (!d.ok) return renderLogin();
     S.user = d.user; S.csrf = d.csrf;
-    if (d.mustChange) return renderForcePwd();
     load();
   }).catch(function () { renderLogin(); });
 })();
