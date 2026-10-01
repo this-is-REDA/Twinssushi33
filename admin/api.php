@@ -12,6 +12,10 @@ header('X-Content-Type-Options: nosniff');
 function out(array $d, int $code = 200): never { http_response_code($code); echo json_encode($d, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); exit; }
 function fail(string $msg, int $code = 400): never { out(['ok' => false, 'error' => $msg], $code); }
 
+/* Toute erreur imprévue doit rester du JSON : sinon l'admin reçoit une page HTML
+   d'erreur et affiche « Réponse du serveur illisible ». */
+set_exception_handler(fn(Throwable $e) => fail($e->getMessage(), 500));
+
 function admin_file(): string { return DATA . '/admin.php'; }
 function admin_conf(): array { $f = admin_file(); return is_file($f) ? (require $f) : []; }
 function save_admin(array $a): void {
@@ -37,6 +41,13 @@ $isMultipart = str_starts_with($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-d
 $in = $isMultipart ? $_POST : (json_decode(file_get_contents('php://input') ?: '{}', true) ?: []);
 $action = (string)($in['action'] ?? '');
 start_session();
+
+/* Hébergements à disque en lecture seule (Vercel, Netlify…) : on ne peut ni enregistrer
+   la carte ni compter les tentatives de connexion. On refuse plutôt que de laisser
+   croire à un enregistrement réussi, et sans jamais ouvrir l'accès sans anti-brute-force. */
+if ($action !== 'me' && !is_writable(DATA)) {
+    fail('Cet hébergement est en lecture seule : l’espace admin a besoin d’un hébergement PHP où le dossier data/ est accessible en écriture.', 503);
+}
 
 /* ---------- Actions sans connexion ---------- */
 if ($action === 'login') {
