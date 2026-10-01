@@ -11,4 +11,7 @@
 !/assets/menu/uploads/.htaccess
 !/assets/menu/uploads/.keep
 
+# Dossier construit par Vercel au déploiement
+/public/
+
 .DS_Store

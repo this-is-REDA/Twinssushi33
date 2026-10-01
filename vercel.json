@@ -1,19 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "mkdir -p public/admin && cp -R assets favicon.png robots.txt sitemap.xml site.webmanifest 404.html public/ && cp admin/admin.css admin/admin.js public/admin/",
+  "outputDirectory": "public",
   "functions": {
-    "index.php": { "runtime": "vercel-php@0.9.0" },
-    "admin/index.php": { "runtime": "vercel-php@0.9.0" },
-    "admin/api.php": { "runtime": "vercel-php@0.9.0" },
-    "inc/bootstrap.php": { "runtime": "vercel-php@0.9.0" },
-    "inc/icons.php": { "runtime": "vercel-php@0.9.0" },
-    "outils/nouveau-mot-de-passe.php": { "runtime": "vercel-php@0.9.0" }
+    "api/index.php": { "runtime": "vercel-php@0.9.0" }
   },
   "redirects": [
     { "source": "/admin", "destination": "/admin/", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/", "destination": "/index.php" },
-    { "source": "/admin/", "destination": "/admin/index.php" }
+    { "source": "/(.*)", "destination": "/api/index.php" }
   ],
   "headers": [
     {
