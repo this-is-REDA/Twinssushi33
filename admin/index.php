@@ -12,7 +12,6 @@ if (PHP_SAPI === 'cli-server') {
         exit;
     }
 }
-start_session();
 header('X-Robots-Tag: noindex, nofollow');
 header('X-Frame-Options: DENY');
 header("Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");

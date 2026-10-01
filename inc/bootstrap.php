@@ -49,20 +49,73 @@ function price_label(array $it): string {
     return $it['price'] === null || $it['price'] === '' ? '' : ((int)$it['price']) . ' DH';
 }
 
-/* ---------- Sessions admin ---------- */
-function start_session(): void {
-    if (session_status() === PHP_SESSION_ACTIVE) return;
+/* ---------- Identifiants admin ---------- */
+function admin_file(): string { return DATA . '/admin.php'; }
+function admin_conf(): array { $f = admin_file(); return is_file($f) ? (array)(require $f) : []; }
+
+/* ---------- Connexion admin : jeton JWT signé, sans session serveur ----------
+   Aucun état n'est conservé côté serveur, ce qui permet à l'admin de fonctionner
+   sur un hébergement où chaque requête peut tomber sur une machine différente.
+   La clé de signature est dérivée du mot de passe chiffré : changer de mot de
+   passe invalide donc immédiatement tous les jetons déjà émis. */
+const ADMIN_COOKIE = 'twins_admin';
+const ADMIN_TTL = 8 * 3600;
+
+function jwt_secret(): string {
+    $env = getenv('TWINS_JWT_SECRET');
+    if (is_string($env) && $env !== '') return $env;
+    $hash = admin_conf()['hash'] ?? '';
+    return $hash === '' ? '' : hash_hmac('sha256', 'twins-admin-jwt', $hash, true);
+}
+
+function b64url(string $raw): string { return rtrim(strtr(base64_encode($raw), '+/', '-_'), '='); }
+function b64url_decode(string $s): string { return (string)base64_decode(strtr($s, '-_', '+/')); }
+
+function jwt_sign(array $claims): string {
+    $head = b64url((string)json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
+    $body = b64url((string)json_encode($claims, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    return $head . '.' . $body . '.' . b64url(hash_hmac('sha256', "$head.$body", jwt_secret(), true));
+}
+
+function jwt_verify(string $token): ?array {
+    $secret = jwt_secret();
+    if ($secret === '') return null;
+    $p = explode('.', $token);
+    if (count($p) !== 3) return null;
+    [$head, $body, $sig] = $p;
+    if (!hash_equals(b64url(hash_hmac('sha256', "$head.$body", $secret, true)), $sig)) return null;
+    $alg = json_decode(b64url_decode($head), true);
+    // Refus explicite de « alg: none » et de tout autre algorithme
+    if (!is_array($alg) || ($alg['alg'] ?? '') !== 'HS256') return null;
+    $claims = json_decode(b64url_decode($body), true);
+    if (!is_array($claims) || empty($claims['sub']) || empty($claims['jti'])) return null;
+    if ((int)($claims['exp'] ?? 0) <= time()) return null;
+    return $claims;
+}
+
+function admin_cookie_options(int $expires): array {
     $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-    session_name('twins_admin');
-    session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => $secure, 'httponly' => true, 'samesite' => 'Strict']);
-    session_start();
-    // Expiration après 8 h d'inactivité
-    if (isset($_SESSION['t']) && time() - $_SESSION['t'] > 8 * 3600) { $_SESSION = []; session_regenerate_id(true); }
-    $_SESSION['t'] = time();
+    return ['expires' => $expires, 'path' => '/', 'secure' => $secure, 'httponly' => true, 'samesite' => 'Strict'];
 }
-function is_admin(): bool { start_session(); return !empty($_SESSION['admin']); }
-function csrf_token(): string {
-    start_session();
-    if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32));
-    return $_SESSION['csrf'];
+
+/* Ouvre la session du navigateur et renvoie le jeton CSRF à lui transmettre. */
+function admin_login(string $user): string {
+    $jti = bin2hex(random_bytes(16));
+    $token = jwt_sign(['sub' => $user, 'jti' => $jti, 'iat' => time(), 'exp' => time() + ADMIN_TTL]);
+    setcookie(ADMIN_COOKIE, $token, admin_cookie_options(0));
+    $_COOKIE[ADMIN_COOKIE] = $token;
+    return csrf_for($jti);
 }
+function admin_logout(): void {
+    setcookie(ADMIN_COOKIE, '', admin_cookie_options(time() - 3600));
+    unset($_COOKIE[ADMIN_COOKIE]);
+}
+
+function admin_claims(): ?array { return jwt_verify((string)($_COOKIE[ADMIN_COOKIE] ?? '')); }
+function is_admin(): bool { return admin_claims() !== null; }
+function admin_user(): string { return (string)(admin_claims()['sub'] ?? ''); }
+
+/* Jeton CSRF lié au jeton de connexion : le navigateur le renvoie en en-tête,
+   ce qu'un autre site ne peut pas faire puisqu'il ne peut pas lire la réponse. */
+function csrf_for(string $jti): string { return hash_hmac('sha256', 'csrf|' . $jti, jwt_secret()); }
+function csrf_token(): string { $c = admin_claims(); return $c === null ? '' : csrf_for((string)$c['jti']); }

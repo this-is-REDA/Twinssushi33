@@ -16,8 +16,6 @@ function fail(string $msg, int $code = 400): never { out(['ok' => false, 'error'
    d'erreur et affiche « Réponse du serveur illisible ». */
 set_exception_handler(fn(Throwable $e) => fail($e->getMessage(), 500));
 
-function admin_file(): string { return DATA . '/admin.php'; }
-function admin_conf(): array { $f = admin_file(); return is_file($f) ? (require $f) : []; }
 function save_admin(array $a): void {
     $php = "<?php\n/* Identifiants admin — ne pas partager. Mot de passe stocké chiffré (hash). */\nreturn " . var_export($a, true) . ";\n";
     $tmp = admin_file() . '.tmp';
@@ -40,7 +38,6 @@ if ($method !== 'POST') fail('Méthode non autorisée', 405);
 $isMultipart = str_starts_with($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-data');
 $in = $isMultipart ? $_POST : (json_decode(file_get_contents('php://input') ?: '{}', true) ?: []);
 $action = (string)($in['action'] ?? '');
-start_session();
 
 /* Hébergements à disque en lecture seule (Vercel, Netlify…) : on ne peut ni enregistrer
    la carte ni compter les tentatives de connexion. On refuse plutôt que de laisser
@@ -64,15 +61,12 @@ if ($action === 'login') {
     }
     throttle_set(null);
     if (password_needs_rehash($conf['hash'], PASSWORD_DEFAULT)) { $conf['hash'] = password_hash($pass, PASSWORD_DEFAULT); save_admin($conf); }
-    session_regenerate_id(true);
-    $_SESSION['admin'] = $conf['user'];
-    $_SESSION['csrf'] = bin2hex(random_bytes(32));
-    out(['ok' => true, 'user' => $conf['user'], 'mustChange' => !empty($conf['mustChange']), 'csrf' => $_SESSION['csrf']]);
+    out(['ok' => true, 'user' => $conf['user'], 'mustChange' => !empty($conf['mustChange']), 'csrf' => admin_login($conf['user'])]);
 }
 if ($action === 'me') {
     if (!is_admin()) out(['ok' => false, 'auth' => false]);
     $conf = admin_conf();
-    out(['ok' => true, 'user' => $_SESSION['admin'], 'mustChange' => !empty($conf['mustChange']), 'csrf' => csrf_token()]);
+    out(['ok' => true, 'user' => admin_user(), 'mustChange' => !empty($conf['mustChange']), 'csrf' => csrf_token()]);
 }
 
 /* ---------- Tout le reste : connecté + jeton CSRF ---------- */
@@ -113,7 +107,7 @@ $m = menu();
 
 switch ($action) {
 case 'logout':
-    $_SESSION = []; session_destroy(); out(['ok' => true]);
+    admin_logout(); out(['ok' => true]);
 
 case 'data':
     done(['badges' => BADGES]);
@@ -262,8 +256,8 @@ case 'password':
     if (mb_strlen($new) < 10 || !preg_match('/[A-Za-z]/', $new) || !preg_match('/\d/', $new)) fail('Le nouveau mot de passe doit faire au moins 10 caractères, avec des lettres et des chiffres.');
     $user = str_in($in['user'] ?? $conf['user'], 40, true, 'Identifiant');
     save_admin(['user' => $user, 'hash' => password_hash($new, PASSWORD_DEFAULT), 'mustChange' => false]);
-    session_regenerate_id(true); $_SESSION['admin'] = $user;
-    out(['ok' => true, 'user' => $user, 'csrf' => csrf_token()]);
+    // Le nouveau mot de passe change la clé de signature : on réémet un jeton.
+    out(['ok' => true, 'user' => $user, 'csrf' => admin_login($user)]);
 
 case 'backups':
     $list = array_map('basename', glob(DATA . '/backups/*.json') ?: []);
