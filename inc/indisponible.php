@@ -29,5 +29,9 @@
   <a class="b alt" href="https://wa.me/212619162094">Commander sur WhatsApp</a>
   <address>167 rue Ibnou Faris, Maârif — Casablanca<br>Lundi au vendredi 11h00 – minuit · Samedi et dimanche 13h00 – minuit</address>
 </main>
+<?php /* Indique si les deux variables d'environnement sont lisibles, sans jamais
+         révéler leur contenu : permet de distinguer « mal configuré » de
+         « base injoignable » sans accès aux journaux de l'hébergeur. */ ?>
+<!-- cfg:<?= sb_configured() ? '1' : '0' ?> -->
 </body>
 </html>

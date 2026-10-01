@@ -9,17 +9,27 @@ declare(strict_types=1);
 
 const SB_TIMEOUT = 10;
 
+/* Selon l'hébergeur, une variable d'environnement arrive dans $_SERVER, dans
+   $_ENV ou seulement via getenv() : on regarde les trois plutôt que de dépendre
+   d'un seul, sinon le site tombe en panne sur une plateforme et pas sur l'autre. */
+function sb_env(string $name): string {
+    foreach ([$_SERVER[$name] ?? null, $_ENV[$name] ?? null, getenv($name)] as $v) {
+        if (is_string($v) && $v !== '') return trim($v);
+    }
+    return '';
+}
+
 function sb_url(): string {
-    $u = rtrim((string)getenv('SUPABASE_URL'), '/');
+    $u = rtrim(sb_env('SUPABASE_URL'), '/');
     if ($u === '') throw new RuntimeException('SUPABASE_URL manquante.');
     return $u;
 }
 function sb_key(): string {
-    $k = (string)getenv('SUPABASE_ANON_KEY');
+    $k = sb_env('SUPABASE_ANON_KEY');
     if ($k === '') throw new RuntimeException('SUPABASE_ANON_KEY manquante.');
     return $k;
 }
-function sb_configured(): bool { return getenv('SUPABASE_URL') && getenv('SUPABASE_ANON_KEY'); }
+function sb_configured(): bool { return sb_env('SUPABASE_URL') !== '' && sb_env('SUPABASE_ANON_KEY') !== ''; }
 
 /* Appel HTTP brut. Renvoie [code HTTP, corps décodé, en-têtes de réponse].
    $token : jeton d'accès de la personne connectée, sinon simple accès public. */
