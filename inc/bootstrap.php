@@ -2,6 +2,13 @@
 /* Twins Sushi — fonctions communes (données, sécurité) */
 declare(strict_types=1);
 
+/* Un visiteur ne doit jamais voir un message d'erreur PHP : il révèle les
+   chemins des fichiers, et le moindre avertissement affiché avant les en-têtes
+   empêche la page de les envoyer. Les erreurs partent dans les journaux de
+   l'hébergeur, où elles servent vraiment à quelque chose. */
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 define('ROOT', dirname(__DIR__));
 define('MAX_BACKUPS', 40);
 

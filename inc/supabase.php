@@ -55,14 +55,12 @@ function sb_call(string $method, string $path, ?array $body = null, ?string $tok
         CURLOPT_CONNECTTIMEOUT => 5,
         CURLOPT_POSTFIELDS     => $body === null ? null : json_encode($body, JSON_UNESCAPED_UNICODE),
     ]);
+    /* Pas de curl_close() : sans effet depuis PHP 8.0, et PHP 8.5 affiche un
+       avertissement qui casserait les en-têtes de la page. */
     $raw = curl_exec($ch);
-    if ($raw === false) {
-        $err = curl_error($ch); curl_close($ch);
-        throw new RuntimeException('Base de données injoignable : ' . $err);
-    }
+    if ($raw === false) throw new RuntimeException('Base de données injoignable : ' . curl_error($ch));
     $code = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
     $cut  = (int)curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    curl_close($ch);
 
     $head = substr((string)$raw, 0, $cut);
     $json = json_decode(substr((string)$raw, $cut) ?: 'null', true);
@@ -156,7 +154,6 @@ function sb_upload_image(string $token, string $name, string $bytes, string $mim
     ]);
     $res = curl_exec($ch);
     $st  = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-    curl_close($ch);
     if ($st < 200 || $st > 299) throw new RuntimeException(sb_message(json_decode((string)$res, true), 'Envoi de la photo impossible'));
     return sb_url() . "/storage/v1/object/public/menu/$name";
 }
