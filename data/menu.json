@@ -1,0 +1,1860 @@
+{
+ "categories": [
+  {
+   "id": "entrees",
+   "title": "Entrées",
+   "jp": "前菜",
+   "visible": true,
+   "items": [
+    {
+     "code": "ST01",
+     "name": "Edamame Salé",
+     "desc": "Fèves de soja, sel",
+     "price": 55,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/st01.webp"
+    },
+    {
+     "code": "ST02",
+     "name": "Edamame Épicé",
+     "desc": "Fèves de soja, sauce chili",
+     "price": 55,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "epice",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/st02.webp"
+    },
+    {
+     "code": "FR03",
+     "name": "Crevettes Tempura Mayo Ciboulette",
+     "desc": "Crevettes panées croustillantes, mayonnaise japonaise, ciboulette",
+     "price": 59,
+     "pcs": 7,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fr03.webp"
+    },
+    {
+     "code": "CR01",
+     "name": "Croquettes Fromage",
+     "desc": "Fromage fondant et poivron, panure croustillante",
+     "price": 39,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cr01.webp"
+    },
+    {
+     "code": "CR02",
+     "name": "Croquettes Poulet Pané",
+     "desc": "Filet de poulet pané au panko",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cr02.webp"
+    },
+    {
+     "code": "CR03",
+     "name": "Croquettes Poulet Aigre-Doux",
+     "desc": "Poulet pané, sauce aigre-douce, ciboulette. Environ 10 pièces",
+     "price": 49,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cr03.webp"
+    },
+    {
+     "code": "CR04",
+     "name": "Croquettes Saumon",
+     "desc": "Saumon grillé et riz, panure croustillante",
+     "price": 49,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cr04.webp"
+    }
+   ]
+  },
+  {
+   "id": "nems",
+   "title": "Nems & rouleaux",
+   "jp": "春巻き",
+   "visible": true,
+   "items": [
+    {
+     "code": "NM01",
+     "name": "Nem Veggie",
+     "desc": "Légumes croquants et vermicelles, feuille croustillante",
+     "price": 30,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/nm01.webp"
+    },
+    {
+     "code": "NM02",
+     "name": "Nem Poulet",
+     "desc": "Poulet, légumes et vermicelles",
+     "price": 30,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/nm02.webp"
+    },
+    {
+     "code": "NM03",
+     "name": "Nem Crevette",
+     "desc": "Crevettes, légumes et vermicelles",
+     "price": 35,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/nm03.webp"
+    },
+    {
+     "code": "RP01",
+     "name": "Rouleau de Printemps Poulet",
+     "desc": "Galette de riz, poulet, salade, carotte, chou",
+     "price": 35,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/rp01.webp"
+    },
+    {
+     "code": "RP02",
+     "name": "Rouleau de Printemps Crevettes",
+     "desc": "Galette de riz, crevettes, salade, carotte, chou",
+     "price": 40,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/rp02.webp"
+    }
+   ]
+  },
+  {
+   "id": "brochettes",
+   "title": "Brochettes",
+   "jp": "串焼き",
+   "visible": true,
+   "items": [
+    {
+     "code": "BR03",
+     "name": "Brochettes Poulet",
+     "desc": "Filet de poulet grillé",
+     "price": 40,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/br03.webp"
+    },
+    {
+     "code": "BR06",
+     "name": "Brochettes Bœuf Fromage",
+     "desc": "Bœuf émincé et fromage fondant",
+     "price": 49,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/br06.webp"
+    },
+    {
+     "code": "BR05",
+     "name": "Brochettes Gambas",
+     "desc": "Gambas grillées",
+     "price": 39,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/br05.webp"
+    },
+    {
+     "code": "BR02",
+     "name": "Brochettes Crevettes",
+     "desc": "Crevettes grillées",
+     "price": 55,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/br02.webp"
+    },
+    {
+     "code": "BR04",
+     "name": "Brochettes Saumon",
+     "desc": "Saumon frais grillé",
+     "price": 59,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/br04.webp"
+    },
+    {
+     "code": "BR01",
+     "name": "Brochettes Thon",
+     "desc": "Thon frais grillé",
+     "price": null,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/br01.webp"
+    }
+   ]
+  },
+  {
+   "id": "soupes",
+   "title": "Soupes",
+   "jp": "スープ",
+   "visible": true,
+   "items": [
+    {
+     "code": "SP05",
+     "name": "Soupe Miso",
+     "desc": "Miso, tofu, algue wakamé",
+     "price": 45,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sp05.webp"
+    },
+    {
+     "code": "SP06",
+     "name": "Soupe Crabe",
+     "desc": "Chair de crabe, champignons, œuf",
+     "price": 55,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sp06.webp"
+    },
+    {
+     "code": "SP02",
+     "name": "Soupe Vermicelle",
+     "desc": "Vermicelles, crevettes, poulet, champignons",
+     "price": 55,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sp02.webp"
+    },
+    {
+     "code": "SP01",
+     "name": "Soupe Fruits de Mer",
+     "desc": "Crevettes, calamar, saumon, palourdes, champignons noirs",
+     "price": 65,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sp01.webp"
+    },
+    {
+     "code": "SP04",
+     "name": "Soupe Tom Yum Kong",
+     "desc": "Soupe thaï épicée aux crevettes, citronnelle, champignons",
+     "price": 65,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "epice",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sp04.webp"
+    },
+    {
+     "code": "SP03",
+     "name": "Soupe Tom Kha Kai",
+     "desc": "Soupe thaï au lait de coco, poulet, champignons",
+     "price": 70,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sp03.webp"
+    }
+   ]
+  },
+  {
+   "id": "salades",
+   "title": "Salades",
+   "jp": "サラダ",
+   "visible": true,
+   "items": [
+    {
+     "code": "SL01",
+     "name": "Salade de Nouilles",
+     "desc": "Nouilles, saumon, crabe, brocoli, tomates cerises",
+     "price": 60,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sl01.webp"
+    },
+    {
+     "code": "SL02",
+     "name": "Salade Gambas",
+     "desc": "Crevettes panées, maïs, avocat",
+     "price": 60,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sl02.webp"
+    },
+    {
+     "code": "SL05",
+     "name": "Salade Vietnamienne",
+     "desc": "Poulet, crevettes, chou, carotte, maïs, salade",
+     "price": 60,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sl05.webp"
+    },
+    {
+     "code": "SL03",
+     "name": "Salade de Bœuf",
+     "desc": "Bœuf sauté, ananas frais, avocat, maïs",
+     "price": 65,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sl03.webp"
+    },
+    {
+     "code": "SL04",
+     "name": "Wakame Saumon",
+     "desc": "Salade wakamé, saumon, avocat, surimi, tobiko",
+     "price": 65,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sl04.webp"
+    }
+   ]
+  },
+  {
+   "id": "makis",
+   "title": "Makis",
+   "jp": "巻き寿司",
+   "visible": true,
+   "items": [
+    {
+     "code": "MK06",
+     "name": "Maki Concombre",
+     "desc": "Concombre croquant",
+     "price": 22,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk06.webp"
+    },
+    {
+     "code": "MK03",
+     "name": "Maki Avocat",
+     "desc": "Avocat crémeux",
+     "price": 28,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk03.webp"
+    },
+    {
+     "code": "MK04",
+     "name": "Maki Mangue",
+     "desc": "Mangue fraîche",
+     "price": 27,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk04.webp"
+    },
+    {
+     "code": "MK05",
+     "name": "Maki Saumon Avocat",
+     "desc": "Le duo incontournable : saumon frais et avocat",
+     "price": 32,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk05.webp"
+    },
+    {
+     "code": "MK02",
+     "name": "Maki Saumon",
+     "desc": "Saumon frais",
+     "price": 35,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk02.webp"
+    },
+    {
+     "code": "MK08",
+     "name": "Maki Thon Concombre",
+     "desc": "Thon frais et concombre",
+     "price": 39,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk08.webp"
+    },
+    {
+     "code": "MK01",
+     "name": "Maki Thon Rouge",
+     "desc": "Thon rouge frais",
+     "price": 49,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk01.webp"
+    },
+    {
+     "code": "MK09",
+     "name": "Maki Ebi Fry",
+     "desc": "Crevette panée",
+     "price": 49,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/mk09.webp"
+    }
+   ]
+  },
+  {
+   "id": "california",
+   "title": "California",
+   "jp": "カリフォルニア",
+   "visible": true,
+   "items": [
+    {
+     "code": "CA05",
+     "name": "California Classique",
+     "desc": "Surimi, concombre, avocat et cream cheese, roulé dans le tobiko",
+     "price": 40,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ca05.webp"
+    },
+    {
+     "code": "CA02",
+     "name": "California Ebi Fry",
+     "desc": "Crevette panée, avocat",
+     "price": 40,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ca02.webp"
+    },
+    {
+     "code": "CA03",
+     "name": "California Saumon Avocat",
+     "desc": "Saumon frais, avocat",
+     "price": 40,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ca03.webp"
+    },
+    {
+     "code": "CA06",
+     "name": "California Shake Yaki",
+     "desc": "Saumon grillé, cream cheese, tobiko",
+     "price": 40,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ca06.webp"
+    },
+    {
+     "code": "CA08",
+     "name": "California Thon",
+     "desc": "Thon frais, concombre, cream cheese, sésame",
+     "price": 40,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ca08.webp"
+    }
+   ]
+  },
+  {
+   "id": "speciaux",
+   "title": "Les Spéciaux",
+   "jp": "スペシャル",
+   "visible": true,
+   "items": [
+    {
+     "code": "CA07",
+     "name": "Ebi Cheese",
+     "desc": "Crevette panée, avocat, nappé de cream cheese, sésame",
+     "price": 36,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ca07.webp"
+    },
+    {
+     "code": "OK01",
+     "name": "Okinawa Cheese",
+     "desc": "Saumon frais et cream cheese",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ok01.webp"
+    },
+    {
+     "code": "OK02",
+     "name": "Okinawa Anguille",
+     "desc": "Saumon frais, cream cheese, anguille",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ok02.webp"
+    },
+    {
+     "code": "OK03",
+     "name": "Okinawa Spicy",
+     "desc": "Saumon frais, cream cheese, sauce chili",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "epice",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ok03.webp"
+    }
+   ]
+  },
+  {
+   "id": "futomaki",
+   "title": "Futomaki",
+   "jp": "太巻き",
+   "visible": true,
+   "items": [
+    {
+     "code": "FM01",
+     "name": "Futomaki Crevette Avocat Surimi",
+     "desc": "Crevette panée, avocat, surimi",
+     "price": 49,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fm01.webp"
+    },
+    {
+     "code": "FM02",
+     "name": "Futomaki Saumon Avocat Surimi",
+     "desc": "Saumon frais, avocat, surimi",
+     "price": 55,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fm02.webp"
+    },
+    {
+     "code": "FM03",
+     "name": "Futomaki Crab Saumon Surimi",
+     "desc": "Chair de crabe, saumon frais, surimi",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fm03.webp"
+    }
+   ]
+  },
+  {
+   "id": "aromaki",
+   "title": "Aromaki",
+   "jp": "ライスペーパー巻き",
+   "visible": true,
+   "items": [
+    {
+     "code": "AR01",
+     "name": "Aromaki Saumon Avocat",
+     "desc": "Galette de riz, saumon frais, avocat, surimi, cream cheese, tobiko",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar01.webp"
+    },
+    {
+     "code": "AR02",
+     "name": "Aromaki Crevette Avocat",
+     "desc": "Galette de riz, crevette panée, avocat, surimi, cream cheese",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar02.webp"
+    },
+    {
+     "code": "AR03",
+     "name": "Aromaki Goma Wakame",
+     "desc": "Galette de riz, saumon, surimi, salade wakamé, cream cheese",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar03.webp"
+    },
+    {
+     "code": "AR05",
+     "name": "Aromaki Saumon Mangue",
+     "desc": "Galette de riz, saumon frais, mangue, cream cheese, gingembre",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar05.webp"
+    },
+    {
+     "code": "AR06",
+     "name": "Aromaki Thon",
+     "desc": "Galette de riz, thon frais, concombre, salade",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar06.webp"
+    },
+    {
+     "code": "AR07",
+     "name": "Aromaki Poulet",
+     "desc": "Galette de riz, poulet, concombre, salade",
+     "price": 59,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar07.webp"
+    },
+    {
+     "code": "AR04",
+     "name": "Aromaki Crabe",
+     "desc": "Galette de riz, chair de crabe, avocat, cream cheese, salade",
+     "price": 65,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ar04.webp"
+    }
+   ]
+  },
+  {
+   "id": "fry",
+   "title": "Fry",
+   "jp": "揚げ巻き",
+   "visible": true,
+   "items": [
+    {
+     "code": "FR01",
+     "name": "Fry Ebi",
+     "desc": "Roulé pané : crevette, surimi",
+     "price": 55,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fr01.webp"
+    },
+    {
+     "code": "FR02",
+     "name": "Fry Saumon",
+     "desc": "Roulé pané : saumon frais, surimi",
+     "price": 55,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fr02.webp"
+    },
+    {
+     "code": "FR06",
+     "name": "Fry Pacific",
+     "desc": "Roulé pané : crevette, avocat, surimi",
+     "price": 55,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fr06.webp"
+    },
+    {
+     "code": "FR05",
+     "name": "Fry Chicken",
+     "desc": "Roulé pané : poulet, avocat, cream cheese",
+     "price": 50,
+     "pcs": 6,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fr05.webp"
+    }
+   ]
+  },
+  {
+   "id": "pizza",
+   "title": "Pizza sushi",
+   "jp": "寿司ピザ",
+   "visible": true,
+   "items": [
+    {
+     "code": "PZ01",
+     "name": "Pizza Saumon Avocat",
+     "desc": "Base de riz, saumon frais, avocat",
+     "price": 59,
+     "pcs": 8,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pz01.webp"
+    },
+    {
+     "code": "PZ02",
+     "name": "Pizza Saumon Crabe",
+     "desc": "Base de riz, saumon frais, avocat, chair de crabe",
+     "price": 59,
+     "pcs": 8,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pz02.webp"
+    },
+    {
+     "code": "PZ03",
+     "name": "Pizza Mozzarella",
+     "desc": "Base de riz, saumon, mozzarella gratinée",
+     "price": 59,
+     "pcs": 8,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pz03.webp"
+    }
+   ]
+  },
+  {
+   "id": "nigiri",
+   "title": "Nigiri",
+   "jp": "握り寿司",
+   "visible": true,
+   "items": [
+    {
+     "code": "NG05",
+     "name": "Nigiri Avocat",
+     "desc": "Avocat sur riz vinaigré",
+     "price": 25,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng05.webp"
+    },
+    {
+     "code": "NG03",
+     "name": "Nigiri Mangue",
+     "desc": "Mangue sur riz vinaigré",
+     "price": 25,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng03.webp"
+    },
+    {
+     "code": "NG04",
+     "name": "Nigiri Poisson Blanc",
+     "desc": "Loup frais sur riz vinaigré",
+     "price": 25,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng04.webp"
+    },
+    {
+     "code": "NG01",
+     "name": "Nigiri Saumon",
+     "desc": "Saumon frais sur riz vinaigré",
+     "price": 30,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng01.webp"
+    },
+    {
+     "code": "NG02",
+     "name": "Nigiri Crevette",
+     "desc": "Crevette sur riz vinaigré",
+     "price": 30,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng02.webp"
+    },
+    {
+     "code": "NG06",
+     "name": "Nigiri Anguille",
+     "desc": "Anguille laquée sur riz vinaigré",
+     "price": 35,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng06.webp"
+    },
+    {
+     "code": "NG07",
+     "name": "Nigiri Thon",
+     "desc": "Thon frais sur riz vinaigré",
+     "price": 39,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ng07.webp"
+    }
+   ]
+  },
+  {
+   "id": "gunkan",
+   "title": "Gunkan",
+   "jp": "軍艦巻き",
+   "visible": true,
+   "items": [
+    {
+     "code": "GK06",
+     "name": "Gunkan Crabe",
+     "desc": "Chair de crabe",
+     "price": 55,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/gk06.webp"
+    },
+    {
+     "code": "GK05",
+     "name": "Gunkan Saumon Ciboulette",
+     "desc": "Saumon frais haché, ciboulette",
+     "price": 55,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/gk05.webp"
+    },
+    {
+     "code": "GK04",
+     "name": "Gunkan Saumon Épicé",
+     "desc": "Saumon frais, mayonnaise épicée maison",
+     "price": 55,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "epice",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/gk04.webp"
+    },
+    {
+     "code": "GK02",
+     "name": "Gunkan Thon",
+     "desc": "Thon frais haché",
+     "price": 59,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/gk02.webp"
+    },
+    {
+     "code": "GK03",
+     "name": "Gunkan Tobiko",
+     "desc": "Œufs de poisson volant",
+     "price": 69,
+     "pcs": 2,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/gk03.webp"
+    }
+   ]
+  },
+  {
+   "id": "temaki",
+   "title": "Temaki",
+   "jp": "手巻き",
+   "visible": true,
+   "items": [
+    {
+     "code": "TM01",
+     "name": "Temaki Saumon",
+     "desc": "Cornet de nori, saumon frais, concombre",
+     "price": 50,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tm01.webp"
+    },
+    {
+     "code": "TM03",
+     "name": "Temaki Thon",
+     "desc": "Cornet de nori, thon frais, concombre",
+     "price": 50,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tm03.webp"
+    },
+    {
+     "code": "TM02",
+     "name": "Temaki Anguille",
+     "desc": "Cornet de nori, anguille, concombre",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tm02.webp"
+    }
+   ]
+  },
+  {
+   "id": "sashimi",
+   "title": "Sashimi",
+   "jp": "刺身",
+   "visible": true,
+   "items": [
+    {
+     "code": "SB02",
+     "name": "Sashimi Saumon",
+     "desc": "Tranches de saumon frais",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sb02.webp"
+    },
+    {
+     "code": "SB01",
+     "name": "Sashimi Poisson Blanc",
+     "desc": "Tranches de loup frais",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sb01.webp"
+    },
+    {
+     "code": "SB03",
+     "name": "Sashimi Thon Rouge",
+     "desc": "Tranches de thon rouge frais",
+     "price": 45,
+     "pcs": 4,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/sb03.webp"
+    }
+   ]
+  },
+  {
+   "id": "carpaccio",
+   "title": "Carpaccio",
+   "jp": "カルパッチョ",
+   "visible": true,
+   "items": [
+    {
+     "code": "CP02",
+     "name": "Carpaccio Saumon",
+     "desc": "Fines tranches de saumon frais",
+     "price": 59,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cp02.webp"
+    },
+    {
+     "code": "CP01",
+     "name": "Carpaccio Poisson Blanc",
+     "desc": "Fines tranches de loup frais",
+     "price": 59,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cp01.webp"
+    },
+    {
+     "code": "CP03",
+     "name": "Carpaccio Thon Rouge",
+     "desc": "Fines tranches de thon rouge",
+     "price": 59,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/cp03.webp"
+    }
+   ]
+  },
+  {
+   "id": "tataki",
+   "title": "Tataki",
+   "jp": "たたき",
+   "visible": true,
+   "items": [
+    {
+     "code": "TK01",
+     "name": "Tataki Saumon",
+     "desc": "Saumon snacké, sauce soja, sésame",
+     "price": 55,
+     "pcs": 5,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tk01.webp"
+    },
+    {
+     "code": "TK02",
+     "name": "Tataki Thon",
+     "desc": "Thon snacké en croûte de sésame",
+     "price": 55,
+     "pcs": 5,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tk02.webp"
+    }
+   ]
+  },
+  {
+   "id": "tartares",
+   "title": "Tartares",
+   "jp": "タルタル",
+   "visible": true,
+   "items": [
+    {
+     "code": "TR01",
+     "name": "Tartare Saumon",
+     "desc": "Saumon frais, avocat, riz vinaigré",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tr01.webp"
+    },
+    {
+     "code": "TR02",
+     "name": "Tartare Thon",
+     "desc": "Thon frais, avocat, riz vinaigré",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tr02.webp"
+    },
+    {
+     "code": "TR04",
+     "name": "Tartare Poisson Blanc",
+     "desc": "Loup frais, avocat, riz vinaigré",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tr04.webp"
+    },
+    {
+     "code": "TR03",
+     "name": "Tartare Crabe",
+     "desc": "Chair de crabe, avocat, riz vinaigré",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tr03.webp"
+    }
+   ]
+  },
+  {
+   "id": "chirashi",
+   "title": "Chirashi",
+   "jp": "ちらし寿司",
+   "visible": true,
+   "items": [
+    {
+     "code": "CH01",
+     "name": "Chirashi Saumon",
+     "desc": "Bol de riz vinaigré, saumon frais",
+     "price": 69,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ch01.webp"
+    },
+    {
+     "code": "CH02",
+     "name": "Chirashi Saumon Avocat",
+     "desc": "Riz vinaigré, saumon frais, avocat",
+     "price": 79,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ch02.webp"
+    },
+    {
+     "code": "CH05",
+     "name": "Chirashi Saumon Mangue Avocat",
+     "desc": "Riz vinaigré, saumon frais, mangue, avocat",
+     "price": 79,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ch05.webp"
+    },
+    {
+     "code": "CH04",
+     "name": "Chirashi Thon",
+     "desc": "Riz vinaigré, thon frais",
+     "price": 69,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ch04.webp"
+    },
+    {
+     "code": "CH06",
+     "name": "Chirashi Mixte Thon Saumon",
+     "desc": "Riz vinaigré, thon et saumon frais",
+     "price": 79,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ch06.webp"
+    },
+    {
+     "code": "CH03",
+     "name": "Chirashi Anguille",
+     "desc": "Riz vinaigré, anguille laquée",
+     "price": 89,
+     "pcs": 9,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ch03.webp"
+    }
+   ]
+  },
+  {
+   "id": "poke",
+   "title": "Poké",
+   "jp": "ポケ",
+   "visible": true,
+   "items": [
+    {
+     "code": "PK01",
+     "name": "Poké Saumon",
+     "desc": "Riz vinaigré, saumon, wakamé, avocat, surimi",
+     "price": 70,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pk01.webp"
+    },
+    {
+     "code": "PK02",
+     "name": "Poké Crevettes",
+     "desc": "Riz vinaigré, crevettes, wakamé, avocat, mangue",
+     "price": 70,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pk02.webp"
+    },
+    {
+     "code": "PK03",
+     "name": "Poké Végétarien",
+     "desc": "Riz vinaigré, mangue, edamame, avocat, chou rouge, carotte",
+     "price": 65,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pk03.webp"
+    }
+   ]
+  },
+  {
+   "id": "tacos",
+   "title": "Tacos",
+   "jp": "タコス",
+   "visible": true,
+   "items": [
+    {
+     "code": "TC01",
+     "name": "Tacos Saumon",
+     "desc": "Saumon frais, avocat, tortilla",
+     "price": 69,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tc01.webp"
+    },
+    {
+     "code": "TC02",
+     "name": "Tacos Thon",
+     "desc": "Thon frais, avocat, tortilla",
+     "price": 69,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tc02.webp"
+    },
+    {
+     "code": "TC04",
+     "name": "Tacos Crevette",
+     "desc": "Crevettes, avocat, tortilla",
+     "price": 69,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tc04.webp"
+    },
+    {
+     "code": "TC03",
+     "name": "Tacos Crabe",
+     "desc": "Chair de crabe, avocat, tortilla",
+     "price": 69,
+     "pcs": 3,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/tc03.webp"
+    }
+   ]
+  },
+  {
+   "id": "plats",
+   "title": "Plats chauds",
+   "jp": "温かい料理",
+   "visible": true,
+   "items": [
+    {
+     "code": "NU01",
+     "name": "Nouilles Sautées au Wok Veggie",
+     "desc": "Nouilles sautées au wok, légumes croquants",
+     "price": 49,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/nu01.webp"
+    },
+    {
+     "code": "RC01",
+     "name": "Riz Cantonais Veggie",
+     "desc": "Riz sauté, légumes, champignons noirs",
+     "price": 35,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/rc01.webp"
+    },
+    {
+     "code": "PL02",
+     "name": "Plat Basilic Légumes",
+     "desc": "Légumes sautés au basilic, riz blanc",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pl02.webp"
+    },
+    {
+     "code": "PL03",
+     "name": "Plat Gingembre Légumes",
+     "desc": "Légumes sautés au gingembre, riz blanc",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pl03.webp"
+    },
+    {
+     "code": "PL01",
+     "name": "Saumon Sauce Légumes",
+     "desc": "Saumon, légumes, curry rouge et lait de coco, riz blanc",
+     "price": 89,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/pl01.webp"
+    }
+   ]
+  },
+  {
+   "id": "accompagnements",
+   "title": "Accompagnements",
+   "jp": "付け合わせ",
+   "visible": true,
+   "items": [
+    {
+     "code": "AC02",
+     "name": "Riz Nature",
+     "desc": "Riz blanc",
+     "price": 25,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ac02.webp"
+    },
+    {
+     "code": "AC05",
+     "name": "Riz Vinaigré",
+     "desc": "Riz à sushi vinaigré, sésame",
+     "price": 28,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ac05.webp"
+    },
+    {
+     "code": "AC03",
+     "name": "Salade de Choux",
+     "desc": "Chou blanc et carotte, vinaigrette sucrée",
+     "price": 20,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ac03.webp"
+    },
+    {
+     "code": "AC04",
+     "name": "Nouilles Sautées Légumes",
+     "desc": "Nouilles, carotte, courgette, poivrons",
+     "price": 45,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "vege",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ac04.webp"
+    },
+    {
+     "code": "AC01",
+     "name": "Salade Wakame",
+     "desc": "Algues wakamé, tomates cerises, tobiko",
+     "price": 59,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ac01.webp"
+    }
+   ]
+  },
+  {
+   "id": "bentos",
+   "title": "Bentos",
+   "jp": "弁当",
+   "visible": true,
+   "items": [
+    {
+     "code": "BT01",
+     "name": "Bento 1",
+     "desc": "California ebi fry, california cream cheese, nems poulet, salade de choux, petite soupe fruits de mer",
+     "price": 109,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bt01.webp"
+    },
+    {
+     "code": "BT02",
+     "name": "Bento 2",
+     "desc": "California ebi fry, maki ebi fry, crevettes panées, salade de choux, petite soupe fruits de mer",
+     "price": 119,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bt02.webp"
+    },
+    {
+     "code": "BT03",
+     "name": "Bento 3",
+     "desc": "California cream cheese, maki saumon, riz nature, nouilles, petite soupe fruits de mer",
+     "price": 119,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bt03.webp"
+    },
+    {
+     "code": "BT04",
+     "name": "Bento 4",
+     "desc": "Fry ebi, crevettes panées, nouilles, petite soupe fruits de mer",
+     "price": 119,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bt04.webp"
+    },
+    {
+     "code": "BT05",
+     "name": "Bento 5",
+     "desc": "California ebi fry, croquettes saumon, nems poulet, riz cantonais, petite soupe fruits de mer",
+     "price": 119,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bt05.webp"
+    },
+    {
+     "code": "BT06",
+     "name": "Bento 6",
+     "desc": "California ebi fry, croquettes saumon, fry ebi, salade de choux, petite soupe fruits de mer",
+     "price": 129,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bt06.webp"
+    }
+   ]
+  },
+  {
+   "id": "assortiments",
+   "title": "Assortiments",
+   "jp": "盛り合わせ",
+   "visible": true,
+   "items": [
+    {
+     "code": "AS09",
+     "name": "Assortiment Salmon",
+     "desc": "Délice saumon, maki saumon, sashimi saumon",
+     "price": 119,
+     "pcs": 14,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as09.webp"
+    },
+    {
+     "code": "AS03",
+     "name": "Assortiment California Mixte",
+     "desc": "California cream cheese, classique, ebi fry, saumon avocat",
+     "price": 109,
+     "pcs": 16,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as03.webp"
+    },
+    {
+     "code": "AS05",
+     "name": "Assortiment Spéciaux Mixte",
+     "desc": "Ebi avocado, crab roll, mango, shaker roll",
+     "price": 169,
+     "pcs": 16,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as05.webp"
+    },
+    {
+     "code": "AS01",
+     "name": "Assortiment Smart",
+     "desc": "California cream cheese, california ebi fry, fry ebi, fry saumon",
+     "price": 119,
+     "pcs": 20,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as01.webp"
+    },
+    {
+     "code": "AS04",
+     "name": "Assortiment California Découverte",
+     "desc": "5 california : saumon avocat, cream cheese, classique, ebi fry, crunchy crevette",
+     "price": 139,
+     "pcs": 20,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as04.webp"
+    },
+    {
+     "code": "AS02",
+     "name": "Twin Box",
+     "desc": "3 california, aromaki saumon avocat, aromaki crevettes avocat",
+     "price": 159,
+     "pcs": 24,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as02.webp"
+    },
+    {
+     "code": "FR04",
+     "name": "Fry Over",
+     "desc": "Fry ebi, fry saumon, pizza saumon avocat, crunchy crevettes",
+     "price": 169,
+     "pcs": 24,
+     "showPcs": true,
+     "badge": "croustillant",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/fr04.webp"
+    },
+    {
+     "code": "AS07",
+     "name": "Assortiment Fraîcheur",
+     "desc": "Aromaki, fry, crunchy crevette et pizza saumon avocat",
+     "price": 199,
+     "pcs": 34,
+     "showPcs": true,
+     "badge": "partager",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as07.webp"
+    },
+    {
+     "code": "AS06",
+     "name": "Assortiment Prestige",
+     "desc": "Spéciaux, futomaki, maki, aromaki et fry : le grand tour",
+     "price": 359,
+     "pcs": 51,
+     "showPcs": true,
+     "badge": "partager",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as06.webp"
+    },
+    {
+     "code": "AS08",
+     "name": "Assortiment Découverte",
+     "desc": "California, aromaki, maki, fry, pizza, futomaki : toute la carte en une box",
+     "price": 389,
+     "pcs": 57,
+     "showPcs": true,
+     "badge": "partager",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/as08.webp"
+    }
+   ]
+  },
+  {
+   "id": "box",
+   "title": "Box promo",
+   "jp": "お得なボックス",
+   "visible": true,
+   "items": [
+    {
+     "code": "BP01",
+     "name": "Box Promo Combo",
+     "desc": "Fry ebi, fry pacific, croquettes saumon",
+     "price": 89,
+     "pcs": 16,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bp01.webp"
+    },
+    {
+     "code": "BP02",
+     "name": "Box Promo Crazy Twins",
+     "desc": "3 california et maki saumon",
+     "price": 99,
+     "pcs": 18,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bp02.webp"
+    },
+    {
+     "code": "BP03",
+     "name": "Box Promo Super Mix",
+     "desc": "3 california, fry ebi, fry saumon",
+     "price": 119,
+     "pcs": 24,
+     "showPcs": true,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bp03.webp"
+    },
+    {
+     "code": "BP04",
+     "name": "Box Promo Mega Box",
+     "desc": "4 california, 2 makis, 2 fry, croquettes saumon",
+     "price": 199,
+     "pcs": 44,
+     "showPcs": true,
+     "badge": "partager",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/bp04.webp"
+    }
+   ]
+  },
+  {
+   "id": "desserts",
+   "title": "Desserts",
+   "jp": "デザート",
+   "visible": true,
+   "items": [
+    {
+     "code": "DS01",
+     "name": "Panna Cotta",
+     "desc": "Crème onctueuse à l’italienne",
+     "price": 45,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ds01.webp"
+    },
+    {
+     "code": "DS02",
+     "name": "Dessert Mangue Tapioca",
+     "desc": "Perles de tapioca, mangue, lait de coco",
+     "price": 45,
+     "pcs": 1,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ds02.webp"
+    },
+    {
+     "code": "DS03",
+     "name": "Nems Nutella",
+     "desc": "Nems croustillants au Nutella",
+     "price": 40,
+     "pcs": 3,
+     "showPcs": false,
+     "badge": "",
+     "available": true,
+     "visible": true,
+     "img": "assets/menu/ds03.webp"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "url": "https://www.twinssushi.com",
+ "tel_affiche": "05 21 23 19 26",
+ "tel": "+212521231926",
+ "wa_affiche": "07 19 16 20 94",
+ "wa": "212719162094",
+ "email": "contact@twinssushi.com",
+ "rue": "186 rue Ibnou Faris",
+ "quartier": "Maârif",
+ "cp": "20250",
+ "ville": "Casablanca",
+ "horaires": [
+  {
+   "label": "Lundi – Vendredi",
+   "days": "1,2,3,4,5",
+   "open": "11:00",
+   "close": "23:59",
+   "text": "11h00 – minuit"
+  },
+  {
+   "label": "Samedi – Dimanche",
+   "days": "6,0",
+   "open": "13:00",
+   "close": "23:59",
+   "text": "13h00 – minuit"
+  }
+ ],
+ "glovo": "",
+ "yassir": "",
+ "kool": "",
+ "instagram": "https://www.instagram.com/twinssushi/",
+ "tiktok": "",
+ "facebook": "",
+ "bandeau_texte": "Ouverture le lundi 28 septembre · 186 rue Ibnou Faris, Maârif",
+ "bandeau_fin": "2026-09-28",
+ "annonce": ""
+}

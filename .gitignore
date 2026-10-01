@@ -1,0 +1,14 @@
+# Identifiants admin : jamais dans le dépôt, même chiffrés
+/data/admin.php
+
+# Fichiers générés par le site
+/data/throttle.json
+/data/backups/*
+!/data/backups/.keep
+
+# Photos ajoutées depuis l'espace admin
+/assets/menu/uploads/*
+!/assets/menu/uploads/.htaccess
+!/assets/menu/uploads/.keep
+
+.DS_Store

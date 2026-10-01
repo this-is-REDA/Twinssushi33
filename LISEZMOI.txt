@@ -1,0 +1,62 @@
+TWINS SUSHI — SITE WEB v3 (25/09/2026)
+=======================================
+
+Nouveautés v3 : page d'accueil « cinéma » (sauce qui coule au scroll,
+signatures, galerie du shooting, box à composer), photos HD détourées
+du shooting pour toute la carte.
+v2 : mode sombre, espace admin, site testé de 320 px à 2560 px.
+
+1. HÉBERGEMENT NÉCESSAIRE
+-------------------------
+- Un hébergement PHP classique : PHP 8.1 ou plus récent, avec l'extension GD
+  (c'est le cas chez Hostinger, o2switch, OVH, Genious, etc.).
+- Pas de base de données : la carte est enregistrée dans data/menu.json.
+- Attention : Netlify, Vercel ou GitHub Pages ne font PAS tourner PHP.
+
+2. MISE EN LIGNE
+----------------
+1) Envoyer TOUT le contenu de ce dossier à la racine du site (public_html),
+   y compris les fichiers cachés .htaccess.
+2) Donner les droits d'écriture (755 ou 775) aux dossiers :
+   data/   data/backups/   assets/menu/uploads/
+3) Activer le certificat SSL (HTTPS) chez l'hébergeur, puis retirer le « # »
+   devant les 2 lignes « Forcer HTTPS » dans le fichier .htaccess.
+4) Vérifier que https://www.twinssushi.com/data/menu.json affiche « Forbidden ».
+   Si ce n'est pas le cas (serveur Nginx), demander à l'hébergeur de bloquer
+   l'accès aux dossiers /data et /inc.
+
+3. ESPACE ADMIN
+---------------
+Adresse : https://www.twinssushi.com/admin/
+Identifiant et mot de passe provisoire : communiqués séparément.
+À la première connexion, le site demande de choisir un nouveau mot de passe.
+
+Ce qu'on peut faire depuis l'admin :
+- Carte : modifier nom, description, prix, nombre de pièces, badge, photo ;
+  marquer un plat « Indisponible » (rupture) ou le masquer ; ajouter,
+  supprimer, déplacer des plats ; créer, renommer, masquer, réordonner
+  les catégories.
+- Infos & liens : bandeau rouge (avec date de fin), annonce, horaires,
+  téléphones, WhatsApp de commande, adresse, liens Glovo / Yassir / Kool,
+  Instagram / TikTok / Facebook.
+- Sécurité : changer l'identifiant et le mot de passe ; restaurer une
+  ancienne version de la carte (40 sauvegardes automatiques).
+
+Sécurité en place : mot de passe chiffré, blocage 15 min après 5 essais
+ratés, session qui expire après 8 h, protection contre les requêtes
+extérieures (jeton CSRF), photos réencodées automatiquement.
+
+Mot de passe oublié : me contacter, ou supprimer le fichier data/admin.php
+et en recréer un (voir outils/nouveau-mot-de-passe.php).
+
+4. STRUCTURE
+------------
+index.php            page publique (générée depuis data/)
+admin/               espace admin
+assets/              styles, scripts, logos, photos des plats
+assets/drip/         les 95 images de la sauce qui coule (accueil)
+assets/hd/           photos grand format des signatures et de la box
+assets/gallery/      photos du shooting (galerie)
+data/menu.json       la carte   |  data/settings.json  les réglages
+data/admin.php       identifiant + mot de passe chiffré
+data/backups/        sauvegardes automatiques
